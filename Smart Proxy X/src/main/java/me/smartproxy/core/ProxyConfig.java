@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 import me.smartproxy.tcpip.CommonMethods;
 import me.smartproxy.tunnel.Config;
 import me.smartproxy.tunnel.httpconnect.HttpConnectConfig;
-import me.smartproxy.tunnel.shadowsocks.ShadowsocksConfig;
 
 public class ProxyConfig {
 	public static final ProxyConfig Instance=new ProxyConfig();
@@ -326,7 +325,6 @@ public class ProxyConfig {
 			 String proxyString=items[i].trim();
 			 Config config=null;
 			 if(proxyString.startsWith("ss://")){
-				 config=ShadowsocksConfig.parse(proxyString);
 			 }else {
 				 if(!proxyString.toLowerCase().startsWith("http://")){
 					 proxyString="http://"+proxyString;

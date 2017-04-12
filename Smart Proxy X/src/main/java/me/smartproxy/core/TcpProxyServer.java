@@ -13,7 +13,6 @@ import me.smartproxy.tunnel.Config;
 import me.smartproxy.tunnel.RawTunnel;
 import me.smartproxy.tunnel.Tunnel;
 import me.smartproxy.tunnel.httpconnect.HttpConnectConfig;
-import me.smartproxy.tunnel.shadowsocks.ShadowsocksConfig;
 
 public class TcpProxyServer implements Runnable {
 
