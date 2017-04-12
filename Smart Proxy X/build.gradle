@@ -1,24 +1,20 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:2.2.2'
     }
 }
 apply plugin: 'android'
 
 repositories {
-    mavenCentral()
-
-    maven {
-        url "https://raw.github.com/embarkmobile/zxing-android-minimal/mvn-repo/maven-repository/"
-    }
+    jcenter()
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         minSdkVersion 14
@@ -38,7 +34,6 @@ android {
 
     buildTypes {
         release {
-            runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.release
         }
@@ -46,7 +41,4 @@ android {
 }
 
 dependencies {
-    compile 'com.embarkmobile:zxing-android-minimal:2.0.0@aar'
-    compile 'com.embarkmobile:zxing-android-integration:2.0.0@aar'
-    compile 'com.google.zxing:core:3.0.1'
 }

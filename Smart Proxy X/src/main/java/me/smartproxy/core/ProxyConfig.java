@@ -19,13 +19,6 @@ import me.smartproxy.tunnel.Config;
 import me.smartproxy.tunnel.httpconnect.HttpConnectConfig;
 import me.smartproxy.tunnel.shadowsocks.ShadowsocksConfig;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-
-
 public class ProxyConfig {
 	public static final ProxyConfig Instance=new ProxyConfig();
 	public final static boolean IS_DEBUG=true;
@@ -93,16 +86,16 @@ public class ProxyConfig {
     	m_DomainMap=new HashMap<String, Boolean>();
 
     	m_Timer=new Timer();
-    	m_Timer.schedule(m_Task, 120000, 120000);//Ã¿Á½·ÖÖÓË¢ĞÂÒ»´Î¡£
+    	m_Timer.schedule(m_Task, 120000, 120000);//æ¯ä¸¤åˆ†é’Ÿåˆ·æ–°ä¸€æ¬¡ã€‚
     }
     
     TimerTask m_Task=new TimerTask() {
 		@Override
 		public void run() {
-			refreshProxyServer();//¶¨Ê±¸üĞÂdns»º´æ
+			refreshProxyServer();//å®šæ—¶æ›´æ–°dnsç¼“å­˜
 		}
 		
-		//¶¨Ê±¸üĞÂdns»º´æ
+		//å®šæ—¶æ›´æ–°dnsç¼“å­˜
 		void refreshProxyServer(){
 			try {
 				for (int i = 0; i <m_ProxyList.size(); i++) {
@@ -226,28 +219,6 @@ public class ProxyConfig {
     	return m_isolate_http_host_header;
     }
     
-    private String[] downloadConfig(String url) throws Exception{
-    	try {
-    		HttpClient client=new DefaultHttpClient();
-        	HttpGet requestGet=new HttpGet(url);
-        	
-        	requestGet.addHeader("X-Android-MODEL", Build.MODEL);
-        	requestGet.addHeader("X-Android-SDK_INT",Integer.toString(Build.VERSION.SDK_INT));
-        	requestGet.addHeader("X-Android-RELEASE", Build.VERSION.RELEASE);
-        	requestGet.addHeader("X-App-Version", AppVersion);
-        	requestGet.addHeader("X-App-Install-ID", AppInstallID);
-        	requestGet.setHeader("User-Agent", System.getProperty("http.agent"));
-            HttpResponse response=client.execute(requestGet);
-            
-            String configString=EntityUtils.toString(response.getEntity(),"UTF-8");
-            String[] lines=configString.split("\\n");
-            return lines;
-    	}
-    	catch(Exception e){
-    		throw new Exception(String.format("Download config file from %s failed.", url));
-    	}
-    }
-    
     private String[] readConfigFromFile(String path) throws Exception {
     	StringBuilder sBuilder=new StringBuilder();
         FileInputStream inputStream=null;
@@ -273,11 +244,7 @@ public class ProxyConfig {
     
     public void loadFromUrl(String url) throws Exception{
     	String[] lines=null;
-    	if(url.charAt(0)=='/'){
-    		lines=readConfigFromFile(url);
-    	}else {
-    		lines=downloadConfig(url);
-		}
+		lines=readConfigFromFile(url);
     
         m_IpList.clear();
         m_DnsList.clear();
@@ -333,7 +300,7 @@ public class ProxyConfig {
 			
 		}
         
-        //²éÕÒÄ¬ÈÏ´úÀí¡£
+        //æŸ¥æ‰¾é»˜è®¤ä»£ç†ã€‚
         if(m_ProxyList.size()==0){
         	tryAddProxy(lines);
         }

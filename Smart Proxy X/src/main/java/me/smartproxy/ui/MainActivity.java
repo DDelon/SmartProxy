@@ -19,8 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import me.smartproxy.R;
 import me.smartproxy.core.LocalVpnService;
 
@@ -141,7 +139,6 @@ public class MainActivity extends Activity implements
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i) {
                             case 0:
-                                scanForConfigUrl();
                                 break;
                             case 1:
                                 showConfigUrlInputDialog();
@@ -150,13 +147,6 @@ public class MainActivity extends Activity implements
                     }
                 })
                 .show();
-    }
-
-    private void scanForConfigUrl() {
-        new IntentIntegrator(this)
-                .setResultDisplayDuration(0)
-                .setPrompt(getString(R.string.config_url_scan_hint))
-                .initiateScan(IntentIntegrator.QR_CODE_TYPES);
     }
 
     private void showConfigUrlInputDialog() {
@@ -266,19 +256,6 @@ public class MainActivity extends Activity implements
             }
             return;
         }
-
-        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (scanResult != null) {
-            String configUrl = scanResult.getContents();
-            if (isValidUrl(configUrl)) {
-                setConfigUrl(configUrl);
-                textViewConfigUrl.setText(configUrl);
-            } else {
-                Toast.makeText(MainActivity.this, R.string.err_invalid_url, Toast.LENGTH_SHORT).show();
-            }
-            return;
-        }
-
         super.onActivityResult(requestCode, resultCode, intent);
     }
 
